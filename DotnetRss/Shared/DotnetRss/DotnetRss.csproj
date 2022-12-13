@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Remove="ViewModels\" />
+		<None Remove="Events\" />
+		<None Remove="Controls\" />
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="ViewModels\" />
+		<Folder Include="Events\" />
+		<Folder Include="Controls\" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Icon\dotnet_bot.png" />
+		<EmbeddedResource Include="Icon\favicon.ico" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Drastic.Feed" Version="1.0.3" />
+		<PackageReference Include="Drastic.Feed.Rss.FeedReader" Version="1.0.3" />
+		<PackageReference Include="Drastic.Feed.Database.LiteDB" Version="1.0.3" />
+		<PackageReference Include="Drastic.Feed.Service.GoogleNews" Version="1.0.3" />
+		<PackageReference Include="Drastic.Feed.Parser.SmartReader" Version="1.0.3" />
+	</ItemGroup>
+</Project>
