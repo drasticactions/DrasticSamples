@@ -48,7 +48,14 @@ namespace DotnetRss.ViewModels
         public override async Task OnLoad()
         {
             await base.OnLoad();
-            this.UpdateFeeds();
+
+            // If we don't have items when loading the VM, load it with the cache.
+            // Otherwise, have the user load it themselves.
+            // Ex. Navigating back in a Navigation View.
+            if (!this.FeedListItems.Any())
+            {
+                this.UpdateFeeds();
+            }
         }
 
         private void UpdateFeeds()

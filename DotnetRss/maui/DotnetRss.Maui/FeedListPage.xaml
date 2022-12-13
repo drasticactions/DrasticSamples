@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<local:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:DotnetRss.Maui"
+             xmlns:model="clr-namespace:Drastic.Feed.Models;assembly=Drastic.Feed"
+             x:Class="DotnetRss.Maui.FeedListPage"
+             Title="Feed List"
+             Title="FeedListPage">
+    <NavigationPage.TitleView>
+        <Button
+            x:Name="AddFeedButton"
+            Clicked="AddFeedButton_Clicked"
+            HorizontalOptions="End"
+            Text="Add"/>
+    </NavigationPage.TitleView>
+    <CollectionView x:Name="FeedListItemsCollection" SelectionChanged="FeedListItemsCollection_SelectionChanged" SelectionMode="Single" Margin="10" ItemsSource="{Binding FeedListItems}">
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="model:FeedListItem">
+                <Grid ColumnSpacing="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image HeightRequest="100" Grid.Column="0" Source="{Binding ImageUri}" />
+                    <Label FontSize="Body" VerticalOptions="Center" Grid.Column="1" Text="{Binding Name}" />
+                </Grid>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</local:BasePage>

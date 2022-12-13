@@ -6,8 +6,8 @@ namespace DotnetRss.Maui;
 
 public partial class App : Application
 {
-    public App()
+    public App(IServiceProvider services)
     {
-        this.MainPage = new AppShell();
+        this.MainPage = new NavigationPage(new FeedListPage(services));
     }
 }

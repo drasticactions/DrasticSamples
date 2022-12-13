@@ -25,5 +25,6 @@
 		<PackageReference Include="Drastic.Feed.Database.LiteDB" Version="1.0.3" />
 		<PackageReference Include="Drastic.Feed.Service.GoogleNews" Version="1.0.3" />
 		<PackageReference Include="Drastic.Feed.Parser.SmartReader" Version="1.0.3" />
+		<PackageReference Include="Drastic.Feed.Templates.Handlebars" Version="1.0.3" />
 	</ItemGroup>
 </Project>
