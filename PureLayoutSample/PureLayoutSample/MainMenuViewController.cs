@@ -46,6 +46,12 @@ namespace PureLayoutSample
                     case 0:
                         this.RootViewController.PushViewController(new BasicLayoutViewController(), true);
                         break;
+                    case 1:
+                        this.RootViewController.PushViewController(new ArraysViewController(), true);
+                        break;
+                    case 10:
+                        this.RootViewController.PushViewController(new ScrollViewController(), true);
+                        break;
                 }
             }
         }
