@@ -26,6 +26,7 @@ namespace PureLayoutSample
                     new StringElement("Layout Margins"),
                     new StringElement("Constraints Without Installing"),
                     new StringElement("Basic UIScrollView"),
+                    new StringElement("Playground"),
                 },
             };
 
@@ -54,6 +55,9 @@ namespace PureLayoutSample
                         break;
                     case 10:
                         this.RootViewController.PushViewController(new ScrollViewController(), true);
+                        break;
+                    case 11:
+                        this.RootViewController.PushViewController(new PlaygroundViewController(), true);
                         break;
                 }
             }
