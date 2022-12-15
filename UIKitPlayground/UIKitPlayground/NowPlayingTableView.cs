@@ -1,4 +1,5 @@
 ﻿using System;
+using Humanizer;
 
 namespace UIKitPlayground
 {
@@ -17,10 +18,10 @@ namespace UIKitPlayground
         public NowPlayingTableView()
         {
             var list = new List<TrackInfo>();
-
+            var generator = new FakeTrackInfo();
             for (var i = 0; i <= 100; i++)
             {
-                list.Add(new TrackInfo());
+                list.Add(generator.Generate());
             }
 
             TableItems = list.ToArray();
@@ -84,12 +85,15 @@ namespace UIKitPlayground
         public void SetupCell(TrackInfo info)
         {
             this.trackInfo = info;
+            this.title.Text = info.Title;
+            this.artist.Text = info.Artist;
+            this.duration.Text = info.Duration.Humanize();
         }
 
         private void SetupUI()
         {
             ClipsToBounds = true;
-            Frame = new CGRect(x: 0, y: 320.33333396911621, width: 812, height: 48.5);
+           // Frame = new CGRect(x: 0, y: 320.33333396911621, width: 812, height: 48.5);
             PreservesSuperviewLayoutMargins = true;
 #if !TVOS
             SeparatorInset = new UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8);
@@ -158,7 +162,6 @@ namespace UIKitPlayground
             stackView.LeadingAnchor.ConstraintEqualTo(this.LeadingAnchor, 16).Active = true;
             TrailingAnchor.ConstraintEqualTo(stackView.TrailingAnchor, 16).Active = true;
             stackView.TopAnchor.ConstraintEqualTo(this.TopAnchor).Active = true;
-            stackView.HeightAnchor.ConstraintEqualTo(48).Active = true;
             duration.WidthAnchor.ConstraintEqualTo(72).Active = true;
             artist.WidthAnchor.ConstraintEqualTo(256).Active = true;
             nowPlayingIndicator.WidthAnchor.ConstraintEqualTo(36).Active = true;
@@ -166,11 +169,21 @@ namespace UIKitPlayground
         }
     }
 
+    public class FakeTrackInfo : Bogus.Faker<TrackInfo>
+    {
+        public FakeTrackInfo()
+        {
+            RuleFor(o => o.Title, f => f.Lorem.Sentence());
+            RuleFor(o => o.Artist, f => f.Company.Bs());
+            RuleFor(o => o.Duration, f => f.Date.Timespan(new TimeSpan(1, 5, 0)));
+        }
+    }
+
     public class TrackInfo
     {
         public string Title { get; set; }
 
-        public string Duration { get; set; }
+        public TimeSpan Duration { get; set; }
 
         public string Artist { get; set; }
     }

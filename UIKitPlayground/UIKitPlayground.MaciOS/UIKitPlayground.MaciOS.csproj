@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks>net7.0-maccatalyst;net7.0-ios</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Drastic.PureLayout" Version="1.0.4" />
+		<PackageReference Include="Drastic.LNPopupController" Version="1.0.2" />
+		<PackageReference Include="Drastic.MonoTouch.Dialog" Version="1.0.0" />
+		<PackageReference Include="Drastic.Nuke" Version="1.0.3" />
+	</ItemGroup>
+</Project>

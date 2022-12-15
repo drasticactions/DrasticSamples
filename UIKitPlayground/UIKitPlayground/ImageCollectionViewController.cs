@@ -4,7 +4,7 @@ using Drastic.PureLayout;
 
 namespace UIKitPlayground
 {
-	public class ImageCollectionViewController : UICollectionViewController
+    public class ImageCollectionViewController : UICollectionViewController
     {
         ImagePipeline pipeline;
 

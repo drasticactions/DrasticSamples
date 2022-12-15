@@ -1,3 +1,5 @@
+using UIKitPlayground.MaciOS;
+
 namespace UIKitPlayground.MacCatalyst;
 
 [Register("AppDelegate")]
@@ -16,6 +18,7 @@ public class AppDelegate : UIApplicationDelegate
 
         // create a UIViewController with a single UILabel
         var vc = GenerateMainViewController();
+        //var vc = new DemoGalleryViewController();
         Window.RootViewController = vc;
 
         // make the window visible
@@ -32,11 +35,11 @@ public class AppDelegate : UIApplicationDelegate
         splitViewController.PreferredDisplayMode = UISplitViewControllerDisplayMode.TwoBesideSecondary;
 
         splitViewController.SetViewController(sidebarViewController, UISplitViewControllerColumn.Primary);
-        splitViewController.SetViewController(new ImageTableViewController(), UISplitViewControllerColumn.Supplementary);
-        splitViewController.SetViewController(new NowPlayingTableViewController(), UISplitViewControllerColumn.Secondary);
+        splitViewController.SetViewController(new RssFeedTableViewController(), UISplitViewControllerColumn.Supplementary);
+        splitViewController.SetViewController(new PodcastTableViewController(), UISplitViewControllerColumn.Secondary);
 
         splitViewController.PreferredPrimaryColumnWidth = 150f;
-        splitViewController.PreferredSupplementaryColumnWidth = 200f;
+        splitViewController.PreferredSupplementaryColumnWidth = 250f;
         return splitViewController;
     }
 }
