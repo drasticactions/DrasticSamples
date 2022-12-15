@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIKitPlayground", "UIKitPlayground\UIKitPlayground.csproj", "{6FE956BE-955D-4240-907F-2D7C7E9A5B5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIKitPlayground.iOS", "UIKitPlayground.iOS\UIKitPlayground.iOS.csproj", "{C656739B-A0A2-4F0A-A221-83F2F4ADF046}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIKitPlayground.MacCatalyst", "UIKitPlayground.MacCatalyst\UIKitPlayground.MacCatalyst.csproj", "{B8B4DA45-A370-4F1A-889D-E79BDAEA9252}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIKitPlayground.tvOS", "UIKitPlayground.tvOS\UIKitPlayground.tvOS.csproj", "{6319E948-4C0F-49AD-AB84-91D82FE971DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6FE956BE-955D-4240-907F-2D7C7E9A5B5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FE956BE-955D-4240-907F-2D7C7E9A5B5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FE956BE-955D-4240-907F-2D7C7E9A5B5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FE956BE-955D-4240-907F-2D7C7E9A5B5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C656739B-A0A2-4F0A-A221-83F2F4ADF046}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C656739B-A0A2-4F0A-A221-83F2F4ADF046}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C656739B-A0A2-4F0A-A221-83F2F4ADF046}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C656739B-A0A2-4F0A-A221-83F2F4ADF046}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8B4DA45-A370-4F1A-889D-E79BDAEA9252}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8B4DA45-A370-4F1A-889D-E79BDAEA9252}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8B4DA45-A370-4F1A-889D-E79BDAEA9252}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8B4DA45-A370-4F1A-889D-E79BDAEA9252}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6319E948-4C0F-49AD-AB84-91D82FE971DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6319E948-4C0F-49AD-AB84-91D82FE971DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6319E948-4C0F-49AD-AB84-91D82FE971DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6319E948-4C0F-49AD-AB84-91D82FE971DA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
