@@ -13,7 +13,7 @@ public class AppDelegate : UIApplicationDelegate
     {
         this.Window = new UIWindow();
 
-        this.Window.RootViewController = new PlaygroundViewController();
+        this.Window.RootViewController = new RecipeListViewController();
 
         this.Window.MakeKeyAndVisible();
 

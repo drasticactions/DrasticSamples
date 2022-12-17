@@ -17,7 +17,7 @@ public class AppDelegate : UIApplicationDelegate
         Window = new UIWindow(UIScreen.MainScreen.Bounds);
 
         // create a UIViewController with a single UILabel
-        var vc = GenerateMainViewController();
+        var vc = new RecipeListViewController();
         //var vc = new DemoGalleryViewController();
         Window.RootViewController = vc;
 

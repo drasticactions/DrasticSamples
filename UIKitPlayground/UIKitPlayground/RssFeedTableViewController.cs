@@ -1,6 +1,7 @@
 ﻿using System;
 using Drastic.Nuke;
 using Drastic.PureLayout;
+using Humanizer;
 
 namespace UIKitPlayground
 {
@@ -66,6 +67,14 @@ namespace UIKitPlayground
 
                 return cell;
             }
+
+            public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+            {
+                var item = this.TableItems[indexPath.Row];
+                item.HasSeen = true;
+                var cell = (RssItemViewCell)tableView.CellAt(indexPath)!;
+                cell.UpdateHasSeen(item.HasSeen);
+            }
         }
 
         public class RssTableView : UITableView
@@ -86,21 +95,30 @@ namespace UIKitPlayground
             private ImagePipeline pipeline;
             private RssItem item;
 
-            private UIView hasSeenHolder = new UIView() { BackgroundColor = UIColor.Red };
-            private UIView iconHolder = new UIView() { BackgroundColor = UIColor.Blue };
-            private UIView feedHolder = new UIView() { BackgroundColor = UIColor.Orange };
+            private UIView hasSeenHolder = new UIView();
+            private UIView iconHolder = new UIView();
+            private UIView feedHolder = new UIView();
 
-            private UIView content = new UIView() { BackgroundColor = UIColor.Green };
-            private UIView footer = new UIView() { BackgroundColor = UIColor.Purple };
+            private UIView content = new UIView();
+            private UIView footer = new UIView();
 
+            private UIImageView hasSeenIcon = new UIImageView();
             private UIImageView icon = new UIImageView();
-            private UILabel title = new UILabel();
+            private UILabel title = new UILabel() { Lines = 2, Font = UIFont.PreferredHeadline, TextAlignment = UITextAlignment.Left };
             private UILabel description = new UILabel();
-            private UILabel releaseDate = new UILabel();
+            private UILabel releaseDate = new UILabel() { Lines = 1, Font = UIFont.PreferredFootnote, TextAlignment = UITextAlignment.Right };
+            private UILabel author = new UILabel() { Lines = 1, Font = UIFont.PreferredFootnote, TextAlignment = UITextAlignment.Left };
+            private bool showIcon;
 
-            public RssItemViewCell(RssItem info, UITableViewCellStyle style = UITableViewCellStyle.Default)
+            public RssItemViewCell(RssItem info, bool showIcon = false, UITableViewCellStyle style = UITableViewCellStyle.Default)
           : base(style, ReuseIdentifier)
             {
+#if TVOS
+                this.footer.BackgroundColor = UIColor.Clear;
+#else
+                this.footer.BackgroundColor = UIColor.SystemFill;
+#endif
+                this.showIcon = showIcon;
                 this.icon.Layer.CornerRadius = 5;
                 this.icon.Layer.MasksToBounds = true;
                 this.pipeline = ImagePipeline.Shared;
@@ -118,14 +136,22 @@ namespace UIKitPlayground
                 this.content.AddSubview(this.iconHolder);
                 this.content.AddSubview(this.feedHolder);
 
+                this.hasSeenHolder.AddSubview(this.hasSeenIcon);
+
                 this.iconHolder.AddSubview(this.icon);
+
+                this.feedHolder.AddSubview(this.title);
+                this.feedHolder.AddSubview(this.author);
+                this.feedHolder.AddSubview(this.releaseDate);
+
+                this.hasSeenIcon.Image = UIImage.GetSystemImage("circle.fill");
             }
 
             public void SetupLayout()
             {
                 this.content.AutoPinEdgesToSuperviewEdgesExcludingEdge(UIEdgeInsets.Zero, ALEdge.Bottom);
                 this.content.AutoPinEdge(ALEdge.Bottom, ALEdge.Top, this.footer);
-                this.content.AutoSetDimension(ALDimension.Height, 60f);
+                this.content.AutoSetDimension(ALDimension.Height, 70f);
 
                 this.footer.AutoPinEdgesToSuperviewEdgesExcludingEdge(UIEdgeInsets.Zero, ALEdge.Top);
                 this.footer.AutoPinEdge(ALEdge.Top, ALEdge.Bottom, this.content);
@@ -141,11 +167,27 @@ namespace UIKitPlayground
                 this.iconHolder.AutoPinEdge(ALEdge.Bottom, ALEdge.Bottom, this.content);
                 this.iconHolder.AutoSetDimension(ALDimension.Width, 40f);
 
+                this.hasSeenIcon.AutoCenterInSuperview();
+                this.hasSeenIcon.AutoSetDimensionsToSize(new CGSize(12, 12));
+
                 this.icon.AutoCenterInSuperview();
                 this.icon.AutoSetDimensionsToSize(new CGSize(32, 32));
 
-                this.feedHolder.AutoPinEdgesToSuperviewEdgesExcludingEdge(UIEdgeInsets.Zero, ALEdge.Left);
+                this.feedHolder.AutoPinEdgesToSuperviewEdgesExcludingEdge(new UIEdgeInsets(top: 0f, left: 0f, bottom: 0f, right: 0f), ALEdge.Left);
                 this.feedHolder.AutoPinEdge(ALEdge.Left, ALEdge.Right, this.iconHolder);
+
+                this.title.AutoPinEdge(ALEdge.Top, ALEdge.Top, this.feedHolder, 5f);
+                //this.title.AutoPinEdge(ALEdge.Bottom, ALEdge.Bottom, this.author, 5f);
+                this.title.AutoPinEdge(ALEdge.Right, ALEdge.Right, this.feedHolder, -15f);
+                this.title.AutoPinEdge(ALEdge.Left, ALEdge.Left, this.feedHolder, 15f);
+
+                this.author.AutoPinEdge(ALEdge.Top, ALEdge.Bottom, this.icon);
+                this.author.AutoPinEdge(ALEdge.Left, ALEdge.Left, this.title);
+                this.author.AutoPinEdge(ALEdge.Right, ALEdge.Left, this.releaseDate);
+
+                this.releaseDate.AutoPinEdge(ALEdge.Top, ALEdge.Bottom, this.icon);
+                this.releaseDate.AutoPinEdge(ALEdge.Right, ALEdge.Right, this.title);
+                this.releaseDate.AutoPinEdge(ALEdge.Left, ALEdge.Right, this.author);
             }
 
             public void SetupCell(RssItem item)
@@ -153,7 +195,21 @@ namespace UIKitPlayground
                 this.item = item;
 
                 this.pipeline.LoadImageWithUrl(new NSUrl(item.ImageUrl)!, UIImage.FromBundle("DotNetBot"), null, null, null, this.icon);
+                this.title.Text = item.Title;
+                this.author.Text = item.Author;
+                this.releaseDate.Text = item.ReleaseDate.Humanize();
+
+                if (!this.showIcon)
+                {
+                    this.icon.Hidden = true;
+                    this.iconHolder.AutoSetDimension(ALDimension.Width, 0f);
+                }
+
+                this.hasSeenIcon.Hidden = item.HasSeen;
             }
+
+            public void UpdateHasSeen(bool hasSeen)
+                => this.hasSeenIcon.SetHidden(hasSeen, true);
         }
     }
 

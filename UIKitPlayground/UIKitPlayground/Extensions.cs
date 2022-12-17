@@ -3,6 +3,16 @@ namespace UIKitPlayground
 {
     public static class UIColorExtensions
     {
+        public static UIColor GetSystemTint()
+        {
+#if TVOS
+            return UIColor.Clear;
+#else
+            var poop = UIConfigurationColorTransformer.PreferredTint;
+            return poop(UIColor.Clear);
+#endif
+        }
+
         public static UIColor FromHexString(this UIColor color, string hexValue, float alpha = 1.0f)
         {
             var colorString = hexValue.Replace("#", "");
