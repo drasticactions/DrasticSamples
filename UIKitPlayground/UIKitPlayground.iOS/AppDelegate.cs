@@ -1,3 +1,9 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
+using CoreFoundation;
+using Drastic.Services;
+using Microsoft.Extensions.DependencyInjection;
+using SharedPlayground.ViewModels;
+
 namespace UIKitPlayground.iOS;
 
 [Register("AppDelegate")]
@@ -11,6 +17,14 @@ public class AppDelegate : UIApplicationDelegate
 
     public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
     {
+        Ioc.Default.ConfigureServices(
+             new ServiceCollection()
+             .AddSingleton<IAppDispatcher, UIKitPlayground.AppDispatcher>()
+             .AddSingleton<IErrorHandlerService, UIKitPlayground.ErrorHandlerService>()
+             .AddTransient<MastonetViewModel>()
+             .AddTransient<RecipeListViewModel>()
+             .BuildServiceProvider());
+
         // create a new window instance based on the screen size
         Window = new UIWindow(UIScreen.MainScreen.Bounds);
 

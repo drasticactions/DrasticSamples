@@ -22,5 +22,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\UIKitPlayground\UIKitPlayground.csproj" />
 		<ProjectReference Include="..\UIKitPlayground.MaciOS\UIKitPlayground.MaciOS.csproj" />
+		<ProjectReference Include="..\..\SharedPlayground\SharedPlayground.csproj" />
 	</ItemGroup>
 </Project>

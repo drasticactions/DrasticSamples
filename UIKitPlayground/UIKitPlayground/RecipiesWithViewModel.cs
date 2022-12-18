@@ -8,6 +8,12 @@ using Drastic.Nuke;
 using DrasticTabBarItem = UIKitPlayground.TabBarItem;
 using static System.Net.Mime.MediaTypeNames;
 using UIKit;
+using SharedPlayground;
+using SharedPlayground.ViewModels;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Drastic.Tools;
+using System.Collections.ObjectModel;
+using SharedPlayground.Models;
 
 namespace UIKitPlayground
 {
@@ -56,24 +62,26 @@ namespace UIKitPlayground
         }
     }
 
-    public class RecipeListViewController : UIViewController, IUICollectionViewDelegate
+    public class RecipeListViewModelViewController : UIViewController, IUICollectionViewDelegate, IUISearchResultsUpdating, IUISearchControllerDelegate, IUISearchBarDelegate
     {
+        private UISearchController searchController;
+        private RecipeListViewModel vm;
         private UICollectionView? collectionView;
-        private UICollectionViewFlowLayout collectionViewLayout;
+        private UICollectionViewFlowLayout collectionViewLayout = new UICollectionViewFlowLayout();
         private UICollectionViewDiffableDataSource<NSString, Recipe>? dataSource;
         private Recipe? selectedRecipe;
         private DrasticTabBarItem selectedDataType = DrasticTabBarItem.All;
         private NSString? recipeCollectionName;
-        private List<Recipe> recipies = new List<Recipe>();
 
-        public RecipeListViewController()
+        public RecipeListViewModelViewController()
         {
-            this.collectionViewLayout = new UICollectionViewFlowLayout();
-            var faker = new FakeRecipie();
-            for (var i = 0; i <= 100; i++)
-            {
-                this.recipies.Add(faker.Generate());
-            }
+            this.vm = (Ioc.Default.ResolveWith<RecipeListViewModel>() as RecipeListViewModel)!;
+
+            searchController = new UISearchController((UIViewController)null);
+            searchController.SearchResultsUpdater = this;
+            searchController.DefinesPresentationContext = true;
+            searchController.SearchBar.Delegate = this;
+            searchController.SearchBar.SizeToFit();
         }
 
         public void ShowRecipes(string title)
@@ -81,7 +89,7 @@ namespace UIKitPlayground
             this.selectedDataType = DrasticTabBarItem.Collections;
             this.recipeCollectionName = new NSString(title);
 
-            this.Apply(this.recipies, true);
+            this.Apply(this.vm.Recipes, true);
 
             // HACK
             this.View!.LayoutIfNeeded();
@@ -133,7 +141,7 @@ namespace UIKitPlayground
         {
             this.collectionView!.RegisterClassForCell(typeof(RecipeListCell), RecipeListCell.ReuseIdentifier);
 
-            this.dataSource = new UICollectionViewDiffableDataSource<NSString, Recipe>(collectionView,
+            this.dataSource = new UICollectionViewDiffableDataSource<NSString, SharedPlayground.Models.Recipe>(collectionView,
                 new UICollectionViewDiffableDataSourceCellProvider((collectionView, indexPath, item) =>
                 {
 
@@ -151,10 +159,10 @@ namespace UIKitPlayground
             );
         }
 
-        private void Apply(List<Recipe> recipies, bool animated = false)
+        private void Apply(ObservableCollection<Recipe> recipies, bool animated = false)
         {
             // Determine what recipes to append to the snapshot.
-            List<Recipe> recipiesToAppend = new List<Recipe>();
+            ObservableCollection<Recipe> recipiesToAppend = new ObservableCollection<Recipe>();
             switch (this.selectedDataType)
             {
                 case DrasticTabBarItem.All:
@@ -204,19 +212,14 @@ namespace UIKitPlayground
             return layout;
         }
 
+        public void UpdateSearchResultsForSearchController(UISearchController searchController)
+        {
+           // throw new NotImplementedException();
+        }
+
         private enum Section
         {
             Main,
-        }
-    }
-
-    public class FakeRecipie : Bogus.Faker<Recipe>
-    {
-        public FakeRecipie()
-        {
-            RuleFor(o => o.Title, f => string.Join(" ", f.Lorem.Words()));
-            RuleFor(o => o.LargeImage, f => f.Image.PicsumUrl());
-            RuleFor(o => o.SmallImage, f => f.Image.PicsumUrl());
         }
     }
 
@@ -229,7 +232,7 @@ namespace UIKitPlayground
         public static string ReuseIdentifier = nameof(RecipeListCell);
 
 #if TVOS
-        private UIColor borderColor = UIColor.Gray.ColorWithAlpha(2.0f);
+            private UIColor borderColor = UIColor.Gray.ColorWithAlpha(2.0f);
 #else
         private UIColor borderColor = UIColor.SystemGray2.ColorWithAlpha(2.0f);
 #endif
@@ -272,7 +275,7 @@ namespace UIKitPlayground
             this.imageView.TranslatesAutoresizingMaskIntoConstraints = false;
 
 #if TVOS
-            this.imageView.AdjustsImageWhenAncestorFocused = true;
+                this.imageView.AdjustsImageWhenAncestorFocused = true;
 #endif
             this.titleLabel.AdjustsFontForContentSizeCategory = true;
             this.titleLabel.ContentMode = UIViewContentMode.Left;
@@ -310,9 +313,9 @@ namespace UIKitPlayground
 
         public void Configure(Recipe recipe)
         {
-            this.titleLabel.Text = recipe.Title;
-            this.pipeline.LoadImageWithUrl(new NSUrl(recipe.SmallImage!), UIImage.FromBundle("DotNetBot"), null, null, null, this.imageView);
-            this.favoriteImageView.Alpha = recipe.IsFavorite ? 1 : 0;
+            this.titleLabel.Text = recipe.RecipeName;
+            this.pipeline.LoadImageWithUrl(new NSUrl(recipe.ImageUrl!), UIImage.FromBundle("DotNetBot"), null, null, null, this.imageView);
+           // this.favoriteImageView.Alpha = recipe.IsFavorite ? 1 : 0;
         }
 
         public override bool Selected
@@ -327,55 +330,15 @@ namespace UIKitPlayground
         }
 #if TVOS
 
-        public override void DidUpdateFocus(UIFocusUpdateContext context, UIFocusAnimationCoordinator coordinator)
-        {
-            //context.NextFocusedView!.Layer.BackgroundColor = UIColor.White.CGColor;
+            public override void DidUpdateFocus(UIFocusUpdateContext context, UIFocusAnimationCoordinator coordinator)
+            {
+                //context.NextFocusedView!.Layer.BackgroundColor = UIColor.White.CGColor;
 
-            //if (context.PreviouslyFocusedView is RecipeListCell)
-            //{
-            //    context.PreviouslyFocusedView.Layer.BackgroundColor = this.BackgroundColor!.CGColor;
-            //}
-        }
+                //if (context.PreviouslyFocusedView is RecipeListCell)
+                //{
+                //    context.PreviouslyFocusedView.Layer.BackgroundColor = this.BackgroundColor!.CGColor;
+                //}
+            }
 #endif
-    }
-
-    public class Recipe : NSObject
-    {
-        [JsonPropertyName("id")]
-        public int Id { get; set; }
-
-        [JsonPropertyName("title")]
-        public string Title { get; set; }
-
-        [JsonPropertyName("prepTime")]
-        public int PrepTime { get; set; }
-
-        [JsonPropertyName("cookTime")]
-        public int CookTime { get; set; }
-
-        [JsonPropertyName("servings")]
-        public string Servings { get; set; }
-
-        [JsonPropertyName("ingredients")]
-        public string Ingredients { get; set; }
-
-        [JsonPropertyName("directions")]
-        public string Directions { get; set; }
-
-        [JsonPropertyName("isFavorite")]
-        public bool IsFavorite { get; set; }
-
-        [JsonPropertyName("addedOn")]
-        public DateTime AddedOn { get; set; }
-
-        [JsonPropertyName("collections")]
-        public List<string> Collections { get; set; }
-
-        [JsonPropertyName("imageNames")]
-        public List<string> ImageNames { get; set; }
-
-        public string? SmallImage { get; set; }
-
-        public string? LargeImage { get; set; }
     }
 }

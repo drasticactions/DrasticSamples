@@ -20,6 +20,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\UIKitPlayground\UIKitPlayground.csproj" />
+		<ProjectReference Include="..\..\SharedPlayground\SharedPlayground.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 	  <InterfaceDefinition Remove="Main.storyboard" />

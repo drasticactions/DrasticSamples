@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIKitPlayground.tvOS", "UIK
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIKitPlayground.MaciOS", "UIKitPlayground.MaciOS\UIKitPlayground.MaciOS.csproj", "{01E56AC4-6471-4397-8666-5515EE6AE40A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedPlayground", "..\SharedPlayground\SharedPlayground.csproj", "{19374B40-38D6-4F91-A183-752F171AA18B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{01E56AC4-6471-4397-8666-5515EE6AE40A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01E56AC4-6471-4397-8666-5515EE6AE40A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01E56AC4-6471-4397-8666-5515EE6AE40A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19374B40-38D6-4F91-A183-752F171AA18B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19374B40-38D6-4F91-A183-752F171AA18B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19374B40-38D6-4F91-A183-752F171AA18B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19374B40-38D6-4F91-A183-752F171AA18B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

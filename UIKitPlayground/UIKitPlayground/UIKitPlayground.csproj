@@ -17,4 +17,7 @@
     <PackageReference Include="Drastic.MonoTouch.Dialog" Version="1.0.0" />
     <PackageReference Include="Drastic.Nuke" Version="1.0.3" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SharedPlayground\SharedPlayground.csproj" />
+  </ItemGroup>
 </Project>

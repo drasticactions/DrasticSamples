@@ -1,3 +1,7 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Drastic.Services;
+using Microsoft.Extensions.DependencyInjection;
+using SharedPlayground.ViewModels;
 using UIKitPlayground.MaciOS;
 
 namespace UIKitPlayground.MacCatalyst;
@@ -13,11 +17,19 @@ public class AppDelegate : UIApplicationDelegate
 
     public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
     {
+        Ioc.Default.ConfigureServices(
+     new ServiceCollection()
+     .AddSingleton<IAppDispatcher, UIKitPlayground.AppDispatcher>()
+     .AddSingleton<IErrorHandlerService, UIKitPlayground.ErrorHandlerService>()
+     .AddTransient<MastonetViewModel>()
+     .AddTransient<RecipeListViewModel>()
+     .BuildServiceProvider());
+
         // create a new window instance based on the screen size
         Window = new UIWindow(UIScreen.MainScreen.Bounds);
 
         // create a UIViewController with a single UILabel
-        var vc = new RecipeListViewController();
+        var vc = new RecipeListViewModelViewController();
         //var vc = new DemoGalleryViewController();
         Window.RootViewController = vc;
 

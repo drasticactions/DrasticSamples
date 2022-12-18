@@ -31,6 +31,9 @@ namespace SharedPlayground.Models
     }
 
     public class Recipe
+#if IOS || MACCATALYST || TVOS || MACOS
+        : NSObject
+#endif
     {
         [JsonPropertyName("label")]
         public string RecipeName { get; set; }
