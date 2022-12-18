@@ -1,4 +1,5 @@
-﻿using Mastonet.Entities;
+﻿using Bogus;
+using Mastonet.Entities;
 using System.Security.Principal;
 
 
@@ -18,7 +19,7 @@ namespace SharedPlayground.Generators
             RuleFor(s => s.Content, f => f.Lorem.Word());
             RuleFor(s => s.Visibility, f => default);
             RuleFor(s => s.Sensitive, f => default);
-            RuleFor(s => s.SpoilerText, f => f.Lorem.Paragraphs());
+            RuleFor(s => s.SpoilerText, f => f.WaffleHtml(1, false));
             RuleFor(s => s.MediaAttachments, f => default);
             RuleFor(s => s.Application, f => default);
             RuleFor(s => s.Mentions, f => default);
@@ -34,7 +35,7 @@ namespace SharedPlayground.Generators
             RuleFor(s => s.Poll, f => default);
             RuleFor(s => s.Card, f => default);
             RuleFor(s => s.Language, f => f.Locale);
-            RuleFor(s => s.Text, f => f.Lorem.Paragraphs());
+            RuleFor(s => s.Text, f => f.WaffleHtml(1, false));
             RuleFor(s => s.Favourited, f => default);
             RuleFor(s => s.Reblogged, f => default);
             RuleFor(s => s.Muted, f => default);
@@ -53,8 +54,8 @@ namespace SharedPlayground.Generators
 
             RuleFor(a => a.Id, f => f.Lorem.Word());
             RuleFor(a => a.UserName, f => f.Lorem.Word());
-            RuleFor(a => a.ProfileUrl, f => f.Lorem.Word());
-            RuleFor(a => a.Note, f => f.Lorem.Word());
+            RuleFor(a => a.ProfileUrl, f => f.Internet.Url());
+            RuleFor(a => a.Note, f => f.WaffleHtml(1, false));
             RuleFor(a => a.StaticAvatarUrl, f => f.Internet.Avatar());
             RuleFor(a => a.HeaderUrl, f => f.Image.PicsumUrl());
             RuleFor(a => a.StaticHeaderUrl, f => f.Image.PicsumUrl());

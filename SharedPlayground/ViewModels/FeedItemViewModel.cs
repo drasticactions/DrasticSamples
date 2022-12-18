@@ -22,11 +22,11 @@ namespace SharedPlayground.ViewModels
                 .RuleFor(f => f.FeedListItemId, f => f.Random.Int())
                 .RuleFor(f => f.Title, f => string.Concat(" ", f.Lorem.Words()))
                 .RuleFor(f => f.Link, f => f.Internet.Url())
-                .RuleFor(f => f.Description, f => f.Lorem.Paragraphs())
+                .RuleFor(f => f.Description, f => f.WaffleHtml(1, false))
                 .RuleFor(f => f.PublishingDate, f => f.Date.Past())
                 .RuleFor(f => f.Author, f => f.Name.FullName())
                 .RuleFor(f => f.Content, f => f.Lorem.Paragraphs())
-                .RuleFor(f => f.Html, f => f.Lorem.Word())
+                .RuleFor(f => f.Html, f => f.WaffleHtml(1, false))
                 .RuleFor(f => f.ImageUrl, f => f.Lorem.Word());
 
             for (var i = 0; i < 100;  i++)
