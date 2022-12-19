@@ -3,7 +3,7 @@ using Microsoft.UI.Dispatching;
 
 namespace WinUIPlayground
 {
-    public class WindowsAppDispatche : IAppDispatcher
+    public class WindowsAppDispatcher : IAppDispatcher
     {
         private readonly DispatcherQueue dispatcherQueue;
 
@@ -11,7 +11,7 @@ namespace WinUIPlayground
         /// Initializes a new instance of the <see cref="AppDispatcher"/> class.
         /// </summary>
         /// <param name="dispatcherQueue">Dispatcher Queue.</param>
-        public WindowsAppDispatche(DispatcherQueue dispatcherQueue)
+        public WindowsAppDispatcher(DispatcherQueue dispatcherQueue)
         {
             this.dispatcherQueue = dispatcherQueue ?? throw new ArgumentNullException(nameof(dispatcherQueue));
         }

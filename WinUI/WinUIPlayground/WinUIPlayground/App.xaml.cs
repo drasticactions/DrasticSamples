@@ -27,7 +27,7 @@ namespace WinUIPlayground
             var dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
             Ioc.Default.ConfigureServices(
              new ServiceCollection()
-             .AddSingleton<IAppDispatcher>(new WindowsAppDispatche(dispatcherQueue))
+             .AddSingleton<IAppDispatcher>(new WindowsAppDispatcher(dispatcherQueue))
              .AddSingleton<IErrorHandlerService, ErrorHandlerService>()
              .AddTransient<MastonetViewModel>()
              .BuildServiceProvider());
