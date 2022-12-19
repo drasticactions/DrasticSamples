@@ -187,7 +187,34 @@ namespace UIKitPlayground
         {
             this.collectionView!.Delegate = this;
             this.collectionView.AlwaysBounceVertical = true;
-            this.collectionView.CollectionViewLayout = this.CreateLayout();
+            this.collectionView.CollectionViewLayout = this.CreateLayoutAgain();
+        }
+
+        private CGSize? _incomingSize;
+
+        public override void ViewWillTransitionToSize(CGSize toSize, IUIViewControllerTransitionCoordinator coordinator)
+        {
+            base.ViewWillTransitionToSize(toSize, coordinator);
+
+            // Keep track of the incoming size, since when we invalidate the collectionview's size won't have updated yet
+            _incomingSize = toSize;
+            var invalidation = new UICollectionViewFlowLayoutInvalidationContext();
+            invalidation.InvalidateFlowLayoutDelegateMetrics = true;
+
+            this.collectionView!.CollectionViewLayout.InvalidateLayout(invalidation);
+        }
+
+        private UICollectionViewFlowLayout CreateLayoutAgain()
+        {
+            var customCollectionViewLayout = new UICollectionViewFlowLayout();
+            customCollectionViewLayout.FooterReferenceSize = new CGSize(width: 0, height: 0);
+            customCollectionViewLayout.HeaderReferenceSize = new CGSize(width: 0, height: 0);
+            customCollectionViewLayout.ItemSize = new CGSize(width: 192, height: 192);
+            customCollectionViewLayout.MinimumInteritemSpacing = 12;
+            customCollectionViewLayout.MinimumLineSpacing = 18;
+            customCollectionViewLayout.SectionInset = new UIEdgeInsets(top: 12, left: 32, bottom: 128, right: 32);
+
+            return customCollectionViewLayout;
         }
 
         private UICollectionViewCompositionalLayout CreateLayout()
