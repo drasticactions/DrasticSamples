@@ -10,7 +10,7 @@ public class SceneDelegate : UIResponder, IUIWindowSceneDelegate
     [Export("scene:willConnectToSession:options:")]
     public void WillConnect(UIScene scene, UISceneSession session, UISceneConnectionOptions connectionOptions)
     {
-        if (scene is not UIWindowScene windowScene)
+connectionOptions        if (scene is not UIWindowScene windowScene)
         {
             return;
         }

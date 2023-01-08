@@ -2,6 +2,8 @@
 using Drastic.DragAndDrop;
 using Drastic.PureLayout;
 using ObjCRuntime;
+using PdfKit;
+using static System.Net.Mime.MediaTypeNames;
 using static CoreFoundation.DispatchSource;
 
 namespace UIKitDragAndDrop
@@ -27,19 +29,9 @@ namespace UIKitDragAndDrop
                 this.imageDrop = new UIDropInteraction(this);
                 this.SetupUI();
                 this.SetupLayout();
-            }
-
-            private void DragAndDropView_Drop(object? sender, Drastic.DragAndDrop.DragAndDropOverlayTappedEventArgs e)
-            {
-                try
-                {
-                    var data = File.ReadAllBytes(e.Paths.First());
-                    this.imageView.Image = UIImage.LoadFromData(NSData.FromArray(data));
-                }
-                catch (Exception ex)
-                {
-                    // Ignore...
-                }
+#if IOS
+                this.View!.BackgroundColor = UIColor.White;
+#endif
             }
 
             private void SetupUI()
@@ -92,22 +84,13 @@ namespace UIKitDragAndDrop
             {
                 session.ProgressIndicatorStyle = UIDropSessionProgressIndicatorStyle.None;
 
-                var file = session.Items.FirstOrDefault();
-                if (file is null)
+                session.LoadObjects<UIImage>((UIImage[] items) =>
                 {
-                    return;
-                }
-
-                var result = await this.LoadItemAsync(file.ItemProvider, file.ItemProvider.RegisteredTypeIdentifiers.ToList());
-
-                try
-                {
-                    this.imageView.Image = UIImage.LoadFromData(NSData.FromFile(result!.FileUrl.Path!.ToString()));
-                }
-                catch (Exception ex)
-                {
-
-                }
+                    if (items.Any())
+                    {
+                        this.imageView.Image = items[0];
+                    }
+                });
             }
 
             private async Task<LoadInPlaceResult?> LoadItemAsync(NSItemProvider itemProvider, List<string> typeIdentifiers)
