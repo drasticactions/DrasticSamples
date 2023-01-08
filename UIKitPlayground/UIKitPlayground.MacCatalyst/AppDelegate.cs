@@ -29,7 +29,7 @@ public class AppDelegate : UIApplicationDelegate
         Window = new UIWindow(UIScreen.MainScreen.Bounds);
 
         // create a UIViewController with a single UILabel
-        var vc = new RecipeListViewModelViewController();
+        var vc = new PlaygroundViewController();
         //var vc = new DemoGalleryViewController();
         Window.RootViewController = vc;
 
@@ -47,8 +47,8 @@ public class AppDelegate : UIApplicationDelegate
         splitViewController.PreferredDisplayMode = UISplitViewControllerDisplayMode.TwoBesideSecondary;
 
         splitViewController.SetViewController(sidebarViewController, UISplitViewControllerColumn.Primary);
-        splitViewController.SetViewController(new RssFeedTableViewController(), UISplitViewControllerColumn.Supplementary);
-        splitViewController.SetViewController(new PodcastTableViewController(), UISplitViewControllerColumn.Secondary);
+        splitViewController.SetViewController(new UINavigationController(new RssFeedTableViewController()), UISplitViewControllerColumn.Supplementary);
+        splitViewController.SetViewController(new UINavigationController(new RecipeListViewModelViewController()), UISplitViewControllerColumn.Secondary);
 
         splitViewController.PreferredPrimaryColumnWidth = 150f;
         splitViewController.PreferredSupplementaryColumnWidth = 250f;

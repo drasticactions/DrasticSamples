@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Drastic.PureLayout" Version="1.0.4" />
+		<PackageReference Include="Drastic.PureLayout" Version="1.0.6" />
 		<PackageReference Include="Drastic.LNPopupController" Version="1.0.2" />
 		<PackageReference Include="Drastic.MonoTouch.Dialog" Version="1.0.0" />
 		<PackageReference Include="Drastic.Nuke" Version="1.0.3" />

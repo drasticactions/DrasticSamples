@@ -29,7 +29,7 @@ public class AppDelegate : UIApplicationDelegate
         Window = new UIWindow(UIScreen.MainScreen.Bounds);
 
         // create a UIViewController with a single UILabel
-        var vc = new RssFeedTableViewController();
+        var vc = new UINavigationController(new RecipeListViewModelViewController());
         Window.RootViewController = vc;
 
         // make the window visible

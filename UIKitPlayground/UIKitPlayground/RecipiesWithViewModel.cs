@@ -77,11 +77,19 @@ namespace UIKitPlayground
         {
             this.vm = (Ioc.Default.ResolveWith<RecipeListViewModel>() as RecipeListViewModel)!;
 
+#if !TVOS
             searchController = new UISearchController((UIViewController)null);
             searchController.SearchResultsUpdater = this;
             searchController.DefinesPresentationContext = true;
             searchController.SearchBar.Delegate = this;
             searchController.SearchBar.SizeToFit();
+
+            if (NavigationItem is not null)
+            {
+                NavigationItem.SearchController = searchController;
+                NavigationItem.HidesSearchBarWhenScrolling = true;
+            }
+#endif
         }
 
         public void ShowRecipes(string title)
@@ -217,6 +225,21 @@ namespace UIKitPlayground
             return customCollectionViewLayout;
         }
 
+        [Export("collectionView:layout:sizeForItemAtIndexPath:")]
+        public CGSize GetSizeForItem(UICollectionView collectionView, UICollectionViewLayout layout, NSIndexPath indexPath)
+        {
+            var referenceSize = _incomingSize ?? collectionView.Frame.Size;
+            var size = new CGSize(192, 192);
+
+            if (referenceSize.Width < 650)
+                size = new CGSize(148, 148);
+
+            if (referenceSize.Width < 350)
+                size = new CGSize(120, 120);
+
+            return size;
+        }
+
         private UICollectionViewCompositionalLayout CreateLayout()
         {
             var layout = new UICollectionViewCompositionalLayout((sectionIndex, layoutEnvironment) =>
@@ -239,9 +262,14 @@ namespace UIKitPlayground
             return layout;
         }
 
+        string _currentSearch = string.Empty;
+
         public void UpdateSearchResultsForSearchController(UISearchController searchController)
         {
-           // throw new NotImplementedException();
+            _currentSearch = searchController.SearchBar.Text;
+
+            this.vm.Apply(_currentSearch);
+            this.Apply(this.vm.Recipes, true);
         }
 
         private enum Section

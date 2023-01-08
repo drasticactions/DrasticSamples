@@ -7,6 +7,7 @@ namespace SharedPlayground.ViewModels
 {
     public class RecipeListViewModel : BaseViewModel
     {
+        public List<Recipe> allRecipies = new List<Recipe>();
         public ObservableCollection<Recipe> Recipes { get; set; } = new ObservableCollection<Recipe>();
 
         public RecipeListViewModel(IServiceProvider services)
@@ -18,9 +19,18 @@ namespace SharedPlayground.ViewModels
                 .RuleFor(r => r.ImageUrl, f => f.Image.PicsumUrl())
                 .RuleFor(r => r.RecipeUrl, f => f.Internet.Url());
 
-            for (var i = 0; i < 100; i++)
+            this.allRecipies = faker.GenerateBetween(80, 120).ToList();
+            this.Apply();
+        }
+
+        public void Apply(string searchTerm = "")
+        {
+            this.Recipes.Clear();
+            var items = string.IsNullOrEmpty(searchTerm) ? this.allRecipies : this.allRecipies.Where(n => n.RecipeName.Contains(searchTerm));
+
+            foreach (var item in items)
             {
-                this.Recipes.Add(faker.Generate());
+                this.Recipes.Add(item);
             }
         }
     }
